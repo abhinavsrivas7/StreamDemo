@@ -1,15 +1,14 @@
-package Map;
+package Reduce;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import Utilities.Utils;
 
+import Utilities.Utils;
 import enitity.Person;
 
-public class MapDemo {
-	static Scanner s = new Scanner(System.in);
+public class ReduceDemo {
+static Scanner s = new Scanner(System.in);
 	
 	public static void main(String[] args) {
 		System.out.println("enter 1 for numbers");
@@ -20,16 +19,13 @@ public class MapDemo {
 		
 		switch(choice) {
 			case 1: int nums[] = Utils.inputNumbers(); 
-			int[] incrementedNumbers = Arrays.stream(nums).map(n -> n + 2).toArray();
-			Utils.printNumbers(incrementedNumbers, "map");
+			int sum = Arrays.stream(nums).reduce(0, (partialResult, current) -> partialResult + current);
+			Utils.printNumbersSum(sum);
 			break;
 			
 			case 2: List<Person> persons = Utils.inputPersons();
-			List<Person> changedPersons = persons.stream().map(p -> {
-				p.age += 3;
-				return p;
-			}).collect(Collectors.toList());
-			Utils.printPersons(changedPersons, "map");
+			int personsAgeSum = persons.stream().reduce(0, (partialAgeSum, p) -> partialAgeSum + p.age, Integer::sum);
+			Utils.printPersonsAgeSum(personsAgeSum);
 			break;
 		}
 	}
